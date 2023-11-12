@@ -2,6 +2,8 @@ import cors from "cors";
 import "dotenv/config";
 import express from "express";
 import connectToDatabase from "./config/db.config.js";
+import defaultError from "./middlewares/error/defaultError.js";
+import admin from "./routes/admin.js";
 const port = process.env.PORT || 3000;
 
 // intialized a exprss app
@@ -14,22 +16,14 @@ app.use(express.json());
 // database connection
 connectToDatabase();
 
+// admin route
+app.use('/admin', admin)
+
 
 // default error handling middleware
+app.use(defaultError)
 
-app.use((req, res, next)=>{
-  const error = new Error("Resource not found!")
-  error.status = 404
-  next(error)
-})
-
-app.use((error, req, res, next)=>{
-  console.log(error);
-  if(error.status){
-    return res.status(error.status).json({message: error.message})
-  }
-  res.status(500).json({message: "something went wrong"})
-})
+// app.use()
 
 // home route
 app.get("/", (_req, res, next) => {
