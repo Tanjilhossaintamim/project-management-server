@@ -4,6 +4,7 @@ import express from "express";
 import connectToDatabase from "./config/db.config.js";
 import defaultError from "./middlewares/error/defaultError.js";
 import admin from "./routes/admin.js";
+import userRoutes from "./routes/user.js";
 const port = process.env.PORT || 3000;
 
 // intialized a exprss app
@@ -17,17 +18,19 @@ app.use(express.json());
 connectToDatabase();
 
 // admin route
-app.use('/admin', admin)
+app.use("/admin", admin);
 
+// auth route
+app.use("/auth", userRoutes);
 
 // default error handling middleware
-app.use(defaultError)
+app.use(defaultError);
 
 // app.use()
 
 // home route
 app.get("/", (_req, res, next) => {
-  res.status(200).json({message: "Product Management server is Running :)"});
+  res.status(200).json({ message: "Product Management server is Running :)" });
 });
 
 // listen app
