@@ -6,11 +6,16 @@ const userRoutes = Router();
 
 userRoutes.post("/register", async (req, res) => {
   const userData = req.body;
-  // check email and password 
-  if (!userData?.email || !userData?.password) {
+  // check email and password
+  if (
+    !userData?.email ||
+    !userData?.password ||
+    !userData?.firstName ||
+    !userData?.lastName
+  ) {
     return res
       .status(400)
-      .send({ message: "email and password are required !" });
+      .send({ message: "please provide all required filed !" });
   }
   const isExisting = await User.findOne({ email: userData?.email });
   // check user already existes or not
@@ -23,11 +28,17 @@ userRoutes.post("/register", async (req, res) => {
   const newUser = new User({
     email: userData.email,
     password: hashedPassword,
+    firstName: userData.firstName,
+    lastName: userData.lastName,
     role: "employee",
+    isVarified: false,
   });
-  await newUser.save();
-
-  res.send({ success: true });
+  try {
+    await newUser.save();
+    res.send({ message: "Registerd Successfully" });
+  } catch (error) {
+    res.send(error);
+  }
 });
 
 export default userRoutes;
