@@ -13,12 +13,12 @@ const authSchema = new Schema({
   firstName: {
     type: String,
     required: true,
-    min: [4, "Must be 4 character !"],
+    minlength: [4, "Must be 4 character !"],
   },
   lastName: {
     type: String,
     required: true,
-    min: [4, "Must be 4 character !"],
+    minlength: [4, "Must be 4 character !"],
   },
   role: {
     type: String,
@@ -28,6 +28,10 @@ const authSchema = new Schema({
   isVarified: {
     type: Boolean,
     default: false,
+  },
+  createdAt: {
+    type: Number,
+    default: new Date().getTime(),
   },
 });
 
