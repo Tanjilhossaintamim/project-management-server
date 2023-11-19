@@ -74,13 +74,17 @@ userRoutes.post("/login", async (req, res) => {
     process.env.SECRET_KEY,
     { expiresIn: "72h" }
   );
+  // set cookie an set response
   res
     .cookie("token", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
       sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
     })
-    .send({ token });
+    .send({
+      user: { _id, email, firstName, lastName, role, isVarified },
+      token,
+    });
 });
 
 // those routes only accessable for manager

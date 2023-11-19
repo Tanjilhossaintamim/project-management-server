@@ -1,6 +1,7 @@
 import cors from "cors";
 import "dotenv/config";
 import express from "express";
+import cookieParser from "cookie-parser";
 import connectToDatabase from "./config/db.config.js";
 import defaultError from "./middlewares/error/defaultError.js";
 import admin from "./routes/admin.js";
@@ -11,8 +12,14 @@ const port = process.env.PORT || 3000;
 const app = express();
 
 // default middlewares
-app.use(cors());
+app.use(
+  cors({
+    origin: ["http://localhost:5173"],
+    credentials: true,
+  })
+);
 app.use(express.json());
+app.use(cookieParser());
 
 // database connection
 connectToDatabase();
