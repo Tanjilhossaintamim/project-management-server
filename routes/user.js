@@ -3,6 +3,7 @@ import User from "../schemas/authSchema.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import varifyManager from "../middlewares/varify/checkManage.js";
+import verifytoken from "../middlewares/varify/varifyToken.js";
 
 const userRoutes = Router();
 
@@ -85,6 +86,18 @@ userRoutes.post("/login", async (req, res) => {
       user: { _id, email, firstName, lastName, role, isVarified },
       token,
     });
+});
+userRoutes.post("/logout", (req, res) => {
+  res.clearCookie("token", { maxAge: 0 }).send({ success: true });
+});
+userRoutes.post("/varifyLogin", verifytoken, async (req, res) => {
+  const userId = req.user._id;
+  try {
+    const result = await User.findById(userId).select(["-password"]);
+    res.send(result);
+  } catch (error) {
+    res.send(error);
+  }
 });
 
 // those routes only accessable for manager
