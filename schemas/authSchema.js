@@ -31,7 +31,6 @@ const authSchema = new Schema({
   },
   createdAt: {
     type: Number,
-    default: new Date().getTime(),
   },
 });
 

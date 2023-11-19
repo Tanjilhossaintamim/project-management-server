@@ -35,10 +35,11 @@ userRoutes.post("/register", async (req, res) => {
     lastName: userData.lastName,
     role: "employee",
     isVarified: false,
+    createdAt: new Date().getTime(),
   });
   try {
     await newUser.save();
-    res.send({ message: "Registerd Successfully" });
+    res.send({ success: true });
   } catch (error) {
     res.send(error);
   }
