@@ -2,7 +2,6 @@ import { Router } from "express";
 import User from "../schemas/authSchema.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import varifyManager from "../middlewares/varify/checkManage.js";
 import verifytoken from "../middlewares/varify/varifyToken.js";
 
 const userRoutes = Router();
@@ -101,53 +100,5 @@ userRoutes.post("/varifyLogin", verifytoken, async (req, res) => {
 });
 
 // those routes only accessable for manager
-userRoutes.get("/employees", varifyManager, async (req, res) => {
-  const limit = req.query?.limit || 10;
-  const page = req.query?.page || 1;
-  const skip = (page - 1) * limit;
-
-  const filter = {
-    // this filter will retrive all users exclude manager
-    _id: { $ne: req.manager._id },
-  };
-  const results = await User.find(filter).skip(skip).limit(limit);
-  res.send(results);
-});
-userRoutes.patch("/employees/:id", varifyManager, async (req, res) => {
-  const id = req.params.id;
-
-  const filter = {
-    _id: id,
-  };
-  const isVarified = req.body?.isVarified;
-  const updatedData = {
-    isVarified,
-  };
-  const results = await User.updateOne(filter, updatedData);
-  res.send(results);
-});
-
-userRoutes.delete("/employees/:id", varifyManager, async (req, res) => {
-  const id = req.params?.id;
-  const filter = {
-    _id: id,
-  };
-  try {
-    const result = await User.deleteOne(filter);
-    res.send(result);
-  } catch (error) {
-    res.status(204).send(error);
-  }
-});
-// user routes
-userRoutes.get("/users/:id", async (req, res) => {
-  const _id = req.params.id;
-  try {
-    const result = await User.findById(_id);
-    res.send(result);
-  } catch (error) {
-    res.send(error);
-  }
-});
 
 export default userRoutes;

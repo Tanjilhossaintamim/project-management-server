@@ -5,7 +5,8 @@ import cookieParser from "cookie-parser";
 import connectToDatabase from "./config/db.config.js";
 import defaultError from "./middlewares/error/defaultError.js";
 import admin from "./routes/admin.js";
-import userRoutes from "./routes/user.js";
+import userRoutes from "./routes/auth.js";
+import employeeRouter from "./routes/employee.js";
 const port = process.env.PORT || 3000;
 
 // intialized a exprss app
@@ -29,6 +30,8 @@ app.use("/admin", admin);
 
 // auth route
 app.use("/auth", userRoutes);
+// employee router
+app.use("/employee", employeeRouter);
 
 // default error handling middleware
 app.use(defaultError);
