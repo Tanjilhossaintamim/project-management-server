@@ -4,19 +4,34 @@ import { Router } from "express";
 const employeeRouter = Router();
 
 employeeRouter.get("/", varifyManager, async (req, res) => {
-  const limit = req.query?.limit || 10;
+  const filter = {};
+  const limit = req.query?.limit || 8;
   const page = req.query?.page || 1;
   const skip = (page - 1) * limit;
+  const varified = req.query?.varified;
+  const role = req.query?.role;
+  const name = req.query?.name;
 
-  const filter = {
-    // this filter will retrive all users exclude manager
-    _id: { $ne: req.manager._id },
-  };
+  if (varified) {
+    filter.isVarified = varified;
+  }
+  if (role) {
+    filter.role = role;
+  }
+  if (name) {
+    filter.firstName = { $regex: name, $options: "i" };
+  }
+  const count = await User.countDocuments(filter);
   const results = await User.find(filter)
     .select(["-password"])
     .skip(skip)
     .limit(limit);
-  res.send(results);
+  const response = {
+    count: count,
+    users: results,
+  };
+
+  res.send(response);
 });
 employeeRouter.patch("/:id", varifyManager, async (req, res) => {
   const id = req.params.id;
