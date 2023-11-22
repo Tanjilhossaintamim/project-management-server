@@ -39,12 +39,19 @@ employeeRouter.patch("/:id", varifyManager, async (req, res) => {
   const filter = {
     _id: id,
   };
-  const isVarified = req.body?.isVarified;
+  const isVarified = req.body?.isVarified || false;
+  const role = req.body?.role || "employee";
+
   const updatedData = {
     isVarified,
+    role,
   };
-  const results = await User.updateOne(filter, updatedData);
-  res.send(results);
+  try {
+    const results = await User.updateOne(filter, updatedData);
+    res.send(results);
+  } catch (error) {
+    res.send(error);
+  }
 });
 
 employeeRouter.delete("/:id", varifyManager, async (req, res) => {
