@@ -24,6 +24,7 @@ employeeRouter.get("/", varifyManager, async (req, res) => {
   const count = await User.countDocuments(filter);
   const results = await User.find(filter)
     .select(["-password"])
+    .sort({ firstName: req.query?.sort || "asc" })
     .skip(skip)
     .limit(limit);
   const response = {
@@ -39,12 +40,9 @@ employeeRouter.patch("/:id", varifyManager, async (req, res) => {
   const filter = {
     _id: id,
   };
-  const isVarified = req.body?.isVarified || false;
-  const role = req.body?.role || "employee";
 
   const updatedData = {
-    isVarified,
-    role,
+    ...req.body,
   };
   try {
     const results = await User.updateOne(filter, updatedData);
