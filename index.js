@@ -7,10 +7,19 @@ import defaultError from "./middlewares/error/defaultError.js";
 import admin from "./routes/admin.js";
 import userRoutes from "./routes/auth.js";
 import employeeRouter from "./routes/employee.js";
+import { createServer } from "http";
+import { Server } from "socket.io";
 const port = process.env.PORT || 3000;
 
 // intialized a exprss app
 const app = express();
+const server = createServer(app);
+// create socket connection
+export const io = new Server(server, {
+  cors: {
+    origin: ["http://localhost:5173"],
+  },
+});
 
 // default middlewares
 app.use(
@@ -40,10 +49,13 @@ app.use(defaultError);
 
 // home route
 app.get("/", (_req, res, next) => {
+  io.emit("init", {
+    data: "success",
+  });
   res.status(200).json({ message: "Product Management server is Running :)" });
 });
 
 // listen app
-app.listen(port, () => {
+server.listen(port, () => {
   console.log(`server running on port ${port}`);
 });
