@@ -1,14 +1,14 @@
+import cookieParser from "cookie-parser";
 import cors from "cors";
 import "dotenv/config";
 import express from "express";
-import cookieParser from "cookie-parser";
+import { createServer } from "http";
+import { Server } from "socket.io";
 import connectToDatabase from "./config/db.config.js";
 import defaultError from "./middlewares/error/defaultError.js";
 import admin from "./routes/admin.js";
 import userRoutes from "./routes/auth.js";
 import employeeRouter from "./routes/employee.js";
-import { createServer } from "http";
-import { Server } from "socket.io";
 const port = process.env.PORT || 3000;
 
 // intialized a exprss app
@@ -17,7 +17,10 @@ const server = createServer(app);
 // create socket connection
 export const io = new Server(server, {
   cors: {
-    origin: ["http://localhost:5173"],
+    origin: [
+      "http://localhost:5173",
+      "https://project-management-psi-ochre.vercel.app",
+    ],
   },
 });
 
