@@ -1,8 +1,8 @@
-import { Router } from "express";
-import User from "../schemas/authSchema.js";
 import bcrypt from "bcrypt";
+import { Router } from "express";
 import jwt from "jsonwebtoken";
 import verifytoken from "../middlewares/varify/varifyToken.js";
+import User from "../schemas/authSchema.js";
 
 const userRoutes = Router();
 
@@ -47,6 +47,7 @@ userRoutes.post("/register", async (req, res) => {
 
 userRoutes.post("/login", async (req, res) => {
   const userData = req.body;
+  console.log(userData);
   // check user provide all required data
   if (!userData?.email || !userData?.password) {
     return res

@@ -3,6 +3,7 @@ import cors from "cors";
 import "dotenv/config";
 import express from "express";
 import { createServer } from "http";
+import morgan from "morgan";
 import { Server } from "socket.io";
 import connectToDatabase from "./config/db.config.js";
 import defaultError from "./middlewares/error/defaultError.js";
@@ -37,6 +38,8 @@ app.use(
 );
 app.use(express.json());
 app.use(cookieParser());
+
+app.use(morgan("dev"));
 
 // database connection
 connectToDatabase();
