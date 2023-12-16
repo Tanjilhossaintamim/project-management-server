@@ -29,7 +29,7 @@ app.use(
   cors({
     origin: [
       "http://localhost:5173",
-      "https://project-management-psi-ochre.vercel.app",
+      "https://projectmanagementnaim.netlify.app/",
     ],
     credentials: true,
   })
