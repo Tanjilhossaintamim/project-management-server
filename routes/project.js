@@ -28,12 +28,16 @@ projectRouter.get("/", varifyManager, async (req, res) => {
   if (req.query?.me) {
     query.createdBy = req.manager._id;
   }
-  const results = await Project.find(query).populate({
-    path: "createdBy",
-    select: ["-password", "-createdAt"],
-  });
+  try {
+    const results = await Project.find(query).populate({
+      path: "createdBy",
+      select: ["-password", "-createdAt"],
+    });
 
-  res.send(results);
+    res.status(201).send(results);
+  } catch (error) {
+    res.status(500).send(error);
+  }
 });
 
 export default projectRouter;
