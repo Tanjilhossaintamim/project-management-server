@@ -9,6 +9,7 @@ import defaultError from "./middlewares/error/defaultError.js";
 import admin from "./routes/admin.js";
 import userRoutes from "./routes/auth.js";
 import employeeRouter from "./routes/employee.js";
+import projectRouter from "./routes/project.js";
 const port = process.env.PORT || 3000;
 
 // intialized a exprss app
@@ -47,6 +48,8 @@ app.use("/admin", admin);
 app.use("/auth", userRoutes);
 // employee router
 app.use("/employee", employeeRouter);
+// project router
+app.use("/projects", projectRouter);
 
 // default error handling middleware
 app.use(defaultError);
