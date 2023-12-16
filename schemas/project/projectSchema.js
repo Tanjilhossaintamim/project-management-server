@@ -4,7 +4,7 @@ const projectSchema = new Schema({
     type: String,
     required: true,
   },
-  description: {
+  descriptiondfdfas: {
     type: String,
     required: true,
   },
