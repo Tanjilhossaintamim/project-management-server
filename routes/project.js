@@ -25,4 +25,12 @@ projectRouter.post("/", varifyManager, async (req, res) => {
   res.send(req.manager);
 });
 
+projectRouter.get("/", varifyManager, async (req, res) => {
+  const results = await Project.find().populate({
+    path: "createdBy",
+    select: ["-password","-createdAt"],
+  });
+  res.send(results);
+});
+
 export default projectRouter;
