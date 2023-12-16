@@ -27,7 +27,10 @@ export const io = new Server(server, {
 // default middlewares
 app.use(
   cors({
-    origin: ["http://localhost:5173"],
+    origin: [
+      "http://localhost:5173",
+      "https://project-management-psi-ochre.vercel.app",
+    ],
     credentials: true,
   })
 );
