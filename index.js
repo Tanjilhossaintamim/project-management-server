@@ -19,7 +19,7 @@ export const io = new Server(server, {
   cors: {
     origin: [
       "http://localhost:5173",
-      "https://projectmanagementnaim.netlify.app/",
+      "https://projectmanagementnaim.netlify.app",
     ],
   },
 });
@@ -29,7 +29,7 @@ app.use(
   cors({
     origin: [
       "http://localhost:5173",
-      "https://projectmanagementnaim.netlify.app/",
+      "https://projectmanagementnaim.netlify.app",
     ],
     credentials: true,
   })

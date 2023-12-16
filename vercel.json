@@ -7,7 +7,7 @@
       "dest": "/",
       "methods": ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
       "headers": {
-        "Access-Control-Allow-Origin": "*"
+        "Access-Control-Allow-Origin": "https://projectmanagementnaim.netlify.app"
       }
     }
   ]
