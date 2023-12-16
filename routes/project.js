@@ -21,15 +21,18 @@ projectRouter.post("/", varifyManager, async (req, res) => {
   } catch (error) {
     res.status(500).send(error);
   }
-
-  res.send(req.manager);
 });
 
 projectRouter.get("/", varifyManager, async (req, res) => {
-  const results = await Project.find().populate({
+  const query = {};
+  if (req.query?.me) {
+    query.createdBy = req.manager._id;
+  }
+  const results = await Project.find(query).populate({
     path: "createdBy",
-    select: ["-password","-createdAt"],
+    select: ["-password", "-createdAt"],
   });
+
   res.send(results);
 });
 
