@@ -3,6 +3,7 @@ import cors from "cors";
 import "dotenv/config";
 import express from "express";
 import { createServer } from "http";
+import createHttpError from "http-errors";
 import morgan from "morgan";
 import { Server } from "socket.io";
 import connectToDatabase from "./config/db.config.js";
@@ -11,7 +12,6 @@ import admin from "./routes/admin.js";
 import userRoutes from "./routes/auth.js";
 import employeeRouter from "./routes/employee.js";
 import projectRouter from "./routes/project.js";
-import taskRouter from "./routes/task/task.js";
 const port = process.env.PORT || 3000;
 
 // intialized a exprss app
@@ -54,9 +54,6 @@ app.use("/auth", userRoutes);
 app.use("/employee", employeeRouter);
 // project router
 app.use("/projects", projectRouter);
-// task route
-app.use(taskRouter);
-// console.log(taskRouter);
 
 // default error handling middleware
 app.use(defaultError);
@@ -71,6 +68,11 @@ app.get("/", (_req, res, next) => {
   res.status(200).json({ message: "Product Management server is Running :)" });
 });
 
+app.use((req, res, next) => {
+  next(createHttpError(404, "Route Not found !"));
+});
+// default error handling middleware
+app.use(defaultError);
 // listen app
 server.listen(port, () => {
   console.log(`server running on port ${port}`);
