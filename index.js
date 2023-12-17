@@ -11,6 +11,7 @@ import admin from "./routes/admin.js";
 import userRoutes from "./routes/auth.js";
 import employeeRouter from "./routes/employee.js";
 import projectRouter from "./routes/project.js";
+import createHttpError from "http-errors";
 const port = process.env.PORT || 3000;
 
 // intialized a exprss app
@@ -54,9 +55,6 @@ app.use("/employee", employeeRouter);
 // project router
 app.use("/projects", projectRouter);
 
-// default error handling middleware
-app.use(defaultError);
-
 // app.use()
 
 // home route
@@ -67,6 +65,11 @@ app.get("/", (_req, res, next) => {
   res.status(200).json({ message: "Product Management server is Running :)" });
 });
 
+app.use((req, res, next) => {
+  next(createHttpError(404, "Route Not found !"));
+});
+// default error handling middleware
+app.use(defaultError);
 // listen app
 server.listen(port, () => {
   console.log(`server running on port ${port}`);
