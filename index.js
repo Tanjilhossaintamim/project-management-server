@@ -11,6 +11,7 @@ import admin from "./routes/admin.js";
 import userRoutes from "./routes/auth.js";
 import employeeRouter from "./routes/employee.js";
 import projectRouter from "./routes/project.js";
+import taskRouter from "./routes/task/task.js";
 const port = process.env.PORT || 3000;
 
 // intialized a exprss app
@@ -53,6 +54,9 @@ app.use("/auth", userRoutes);
 app.use("/employee", employeeRouter);
 // project router
 app.use("/projects", projectRouter);
+// task route
+app.use(taskRouter);
+// console.log(taskRouter);
 
 // default error handling middleware
 app.use(defaultError);
