@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-const varifyManager = (req, res, next) => {
+const verifyManager = (req, res, next) => {
   const token = req.cookies?.token;
 
   if (!token) {
@@ -11,7 +11,7 @@ const varifyManager = (req, res, next) => {
         .clearCookie("token", { maxAge: 0 })
         .send({ message: "Unauthorized access !" });
     }
-    if (decoded?.isVarified == false) {
+    if (decoded?.isVerified == false) {
       return res.status(403).send({ message: "Forbidden !" });
     }
     if (decoded?.role === "employee") {
@@ -23,4 +23,4 @@ const varifyManager = (req, res, next) => {
     next();
   });
 };
-export default varifyManager;
+export default verifyManager;

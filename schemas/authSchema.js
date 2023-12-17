@@ -25,7 +25,7 @@ const authSchema = new Schema({
     required: true,
     enum: ["manager", "employee"],
   },
-  isVarified: {
+  isVerified: {
     type: Boolean,
     default: false,
   },

@@ -1,12 +1,12 @@
 import bcrypt from "bcrypt";
 import { Router } from "express";
 import jwt from "jsonwebtoken";
-import verifytoken from "../middlewares/varify/varifyToken.js";
+import verifytoken from "../middlewares/verify/verifyToken.js";
 import User from "../schemas/authSchema.js";
 
 const userRoutes = Router();
 
-// authenication routes it accessable for all
+// authentication routes it accessible for all
 userRoutes.post("/register", async (req, res) => {
   const userData = req.body;
   // check email and password
@@ -21,7 +21,7 @@ userRoutes.post("/register", async (req, res) => {
       .send({ message: "please provide all required filed !" });
   }
   const isExisting = await User.findOne({ email: userData?.email });
-  // check user already existes or not
+  // check user already exists or not
   if (isExisting) {
     return res.status(400).send({ message: "email already exists !" });
   }
@@ -34,7 +34,7 @@ userRoutes.post("/register", async (req, res) => {
     firstName: userData.firstName,
     lastName: userData.lastName,
     role: "employee",
-    isVarified: false,
+    isVerified: false,
     createdAt: new Date().getTime(),
   });
   try {
@@ -68,7 +68,13 @@ userRoutes.post("/login", async (req, res) => {
   if (!isPasswordMatched) {
     return res.send({ message: "password does not matched !" });
   }
-  const { firstName, lastName, role, _id, isVarified } = isUserExists;
+  const {
+    firstName,
+    lastName,
+    role,
+    _id,
+    isVerified: isVarified,
+  } = isUserExists;
   // genarate a jwt token for user
   const token = jwt.sign(
     { email, firstName, lastName, role, isVarified, _id },
@@ -90,9 +96,10 @@ userRoutes.post("/login", async (req, res) => {
 userRoutes.post("/logout", (req, res) => {
   res.clearCookie("token", { maxAge: 0 }).send({ success: true });
 });
-userRoutes.post("/varifyLogin", verifytoken, async (req, res) => {
+userRoutes.post("/verifyLogin", verifytoken, async (req, res) => {
   const userId = req.user._id;
   try {
+    console.log(userId);
     const result = await User.findById(userId).select(["-password"]);
     res.send(result);
   } catch (error) {
@@ -100,6 +107,6 @@ userRoutes.post("/varifyLogin", verifytoken, async (req, res) => {
   }
 });
 
-// those routes only accessable for manager
+// those routes only accessible for manager
 
 export default userRoutes;

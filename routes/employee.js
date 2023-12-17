@@ -1,19 +1,19 @@
-import varifyManager from "../middlewares/varify/checkManage.js";
+import verifyManager from "../middlewares/verify/verify.js";
 import User from "../schemas/authSchema.js";
 import { Router } from "express";
 const employeeRouter = Router();
 
-employeeRouter.get("/", varifyManager, async (req, res) => {
+employeeRouter.get("/", verifyManager, async (req, res) => {
   const filter = {};
   const limit = req.query?.limit || 8;
   const page = req.query?.page || 1;
   const skip = (page - 1) * limit;
-  const varified = req.query?.varified;
+  const verified = req.query?.verified;
   const role = req.query?.role;
   const name = req.query?.name;
 
-  if (varified) {
-    filter.isVarified = varified;
+  if (verified) {
+    filter.isVerified = verified;
   }
   if (role) {
     filter.role = role;
@@ -34,7 +34,7 @@ employeeRouter.get("/", varifyManager, async (req, res) => {
 
   res.send(response);
 });
-employeeRouter.patch("/:id", varifyManager, async (req, res) => {
+employeeRouter.patch("/:id", verifyManager, async (req, res) => {
   const id = req.params.id;
 
   const filter = {
@@ -52,7 +52,7 @@ employeeRouter.patch("/:id", varifyManager, async (req, res) => {
   }
 });
 
-employeeRouter.delete("/:id", varifyManager, async (req, res) => {
+employeeRouter.delete("/:id", verifyManager, async (req, res) => {
   const id = req.params?.id;
   const filter = {
     _id: id,
