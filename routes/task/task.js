@@ -24,4 +24,13 @@ taskRouter.get("/tasks", async (req, res) => {
     res.status(500).send(error.message);
   }
 });
+
+taskRouter.get("/tasks/:id", async (req, res) => {
+  try {
+    const tasks = await Task.find({ projectId: req.params.id });
+    res.send(tasks);
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+});
 export default taskRouter;

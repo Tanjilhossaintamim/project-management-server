@@ -8,7 +8,7 @@ const taskSchema = new Schema({
   taskDescription: {
     type: String,
   },
-  taskNode: {
+  taskNote: {
     type: String,
   },
   completed: {
@@ -19,6 +19,11 @@ const taskSchema = new Schema({
   projectId: {
     type: Schema.Types.ObjectId,
     ref: "Project",
+    required: true,
+  },
+  createdBy: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
     required: true,
   },
   deadLine: {
