@@ -37,7 +37,6 @@ projectRouter.get("/", verifyManager, async (req, res) => {
       .populate("tasks");
 
     res.status(201).send(results);
-    res.send(results);
   } catch (error) {
     res.status(500).send(error);
   }
