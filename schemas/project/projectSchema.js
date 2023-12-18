@@ -8,7 +8,7 @@ const projectSchema = new Schema({
     type: String,
     required: true,
   },
-  compleate: {
+  complete: {
     type: Boolean,
     default: false,
   },
@@ -20,4 +20,5 @@ const projectSchema = new Schema({
   },
 });
 const Project = model("Project", projectSchema);
+
 export default Project;
