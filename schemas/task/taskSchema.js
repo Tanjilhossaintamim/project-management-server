@@ -26,6 +26,10 @@ const taskSchema = new Schema({
     ref: "User",
     required: true,
   },
+  assignTask: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+  },
   deadLine: {
     type: String,
   },
