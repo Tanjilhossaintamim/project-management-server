@@ -29,10 +29,12 @@ projectRouter.get("/", verifyManager, async (req, res) => {
     query.createdBy = req.manager._id;
   }
   try {
-    const results = await Project.find(query).populate({
-      path: "createdBy",
-      select: ["-password", "-createdAt"],
-    });
+    const results = await Project.find(query)
+      .populate({
+        path: "createdBy",
+        select: ["-password", "-createdAt"],
+      })
+      .populate("tasks");
 
     res.status(201).send(results);
     res.send(results);
@@ -43,7 +45,7 @@ projectRouter.get("/", verifyManager, async (req, res) => {
 projectRouter.get("/:id", verifyManager, async (req, res) => {
   const project_id = req.params.id;
   try {
-    const result = await Project.findById(project_id);
+    const result = await Project.findById(project_id).populate("tasks");
     res.status(200).send(result);
   } catch (error) {
     res.status(500).send(error);

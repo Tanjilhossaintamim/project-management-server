@@ -12,11 +12,17 @@ const projectSchema = new Schema({
     type: Boolean,
     default: false,
   },
-
+  tasks: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Task",
+      default: [],
+    },
+  ],
   createdBy: { type: Schema.Types.ObjectId, ref: "User" },
   creationTime: {
-    type: Date,
-    default: Date.now,
+    type: Number,
+    default: new Date().getTime(),
   },
 });
 const Project = model("Project", projectSchema);
