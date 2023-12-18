@@ -26,8 +26,14 @@ const taskSchema = new Schema({
     ref: "User",
     required: true,
   },
+<<<<<<< HEAD
   assignUser: {
     type: String,
+=======
+  assignTask: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+>>>>>>> d77ae39186dbf98061a3b20a501bbe6fabe8c81a
   },
   deadLine: {
     type: String,
