@@ -26,6 +26,9 @@ const taskSchema = new Schema({
     ref: "User",
     required: true,
   },
+  assignUser: {
+    type: String,
+  },
   deadLine: {
     type: String,
   },
