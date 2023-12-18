@@ -34,9 +34,7 @@ projectRouter.get("/", verifyManager, async (req, res) => {
       select: ["-password", "-createdAt"],
     });
 
-<<<<<<< HEAD
     res.status(201).send(results);
-=======
     res.send(results);
   } catch (error) {
     res.status(500).send(error);
@@ -65,7 +63,6 @@ projectRouter.patch("/:id", verifyManager, async (req, res) => {
   try {
     const result = await Project.updateOne(filter, updatedData);
     res.status(200).send(result);
->>>>>>> main
   } catch (error) {
     res.status(500).send(error);
   }
