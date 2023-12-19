@@ -17,6 +17,7 @@ taskRouter.post("/tasks", verifyManager, async (req, res) => {
     res.send(newTask);
   } catch (error) {
     res.status(500).send(error);
+    console.log(error);
   }
 });
 
