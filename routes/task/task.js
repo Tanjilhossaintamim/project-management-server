@@ -4,8 +4,6 @@ import Task from "../../schemas/task/taskSchema.js";
 
 const taskRouter = express.Router();
 
-// console.log(Task);
-
 taskRouter.post("/tasks", verifyManager, async (req, res) => {
   try {
     const body = req.body;
