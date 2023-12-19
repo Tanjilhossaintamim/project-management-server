@@ -75,7 +75,7 @@ userRoutes.post("/login", async (req, res) => {
     _id,
     isVerified: isVarified,
   } = isUserExists;
-  // genarate a jwt token for user
+  // generate a jwt token for user
   const token = jwt.sign(
     { email, firstName, lastName, role, isVarified, _id },
     process.env.SECRET_KEY,

@@ -1,6 +1,7 @@
 import express from "express";
 import verifyManager from "../../middlewares/verify/verify.js";
 import Task from "../../schemas/task/taskSchema.js";
+import Project from "../../schemas/project/projectSchema.js";
 
 const taskRouter = express.Router();
 
@@ -12,6 +13,11 @@ taskRouter.post("/tasks", verifyManager, async (req, res) => {
       createdBy: req.manager?._id,
     });
     newTask = await newTask.save();
+    // updated project task
+    const project = await Project.findById(body.projectId);
+    project.tasks.push(newTask._id);
+    project.save();
+    // finally send response
     res.send(newTask);
   } catch (error) {
     res.status(500).send(error);
